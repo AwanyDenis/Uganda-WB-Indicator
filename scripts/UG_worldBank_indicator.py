@@ -255,11 +255,11 @@ with col[1]:
     # choropleth = make_choropleth(df_selected_year, 'states_code', 'population', selected_color_theme)
     # st.plotly_chart(choropleth, use_container_width=True)
     
-    heatmap = make_heatmap(UG_data_long, 'Year','Amount', selected_color_theme)
-    st.altair_chart(heatmap, use_container_width=True)
-
     choropleth = make_choropleth(df_selected_year, 'Country', 'Amount', 'Viridis')
     st.plotly_chart(choropleth, use_container_width=True)
+
+    heatmap = make_heatmap(UG_data_long, 'Year','Amount', selected_color_theme)
+    st.altair_chart(heatmap, use_container_width=True)
 
 
 
