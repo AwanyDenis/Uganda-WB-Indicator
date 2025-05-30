@@ -133,13 +133,15 @@ def make_donut(input_response, input_text, input_color):
 # Next, we’ll going to create a custom function for making indicator values more concise as well as improving the aesthetics. 
 # Particularly, instead of being displayed as numerical values of 28,995,881 in the metrics card to a more concised form as 29.0 M. 
 # This was also applied to numerical values in the thousand range.
-def format_number(num):
-    if num >= 1_000_000:
-        return f'{num / 1_000_000:.1f} M' if num % 1_000_000 else f'{num // 1_000_000} M'
+def format_currency_ugx(num):
+    if num >= 1_000_000_000:
+        return f'UGX {num / 1_000_000_000:.1f} B' if num % 1_000_000_000 else f'UGX {num // 1_000_000_000} B'
+    elif num >= 1_000_000:
+        return f'UGX {num / 1_000_000:.1f} M' if num % 1_000_000 else f'UGX {num // 1_000_000} M'
     elif num >= 1_000:
-        return f'{num / 1_000:.0f} K'
+        return f'UGX {num / 1_000:.0f} K'
     else:
-        return str(num)
+        return f'UGX {num:,}'
 
 
 # App layout
