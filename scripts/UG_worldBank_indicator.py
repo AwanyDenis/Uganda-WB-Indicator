@@ -134,12 +134,12 @@ def make_donut(input_response, input_text, input_color):
 # Particularly, instead of being displayed as numerical values of 28,995,881 in the metrics card to a more concised form as 29.0 M. 
 # This was also applied to numerical values in the thousand range.
 def format_number(num):
-    if num > 1000000:
-        if not num % 1000000:
-            return f'{num // 1000000} M'
-        return f'{round(num / 1000000, 1)} M'
-    return f'{num // 1000} K'
-
+    if num >= 1_000_000:
+        return f'{num / 1_000_000:.1f} M' if num % 1_000_000 else f'{num // 1_000_000} M'
+    elif num >= 1_000:
+        return f'{num / 1_000:.0f} K'
+    else:
+        return str(num)
 
 
 # App layout
