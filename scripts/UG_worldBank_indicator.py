@@ -207,6 +207,46 @@ with col[0]:
         st.altair_chart(donut_chart_less)
 
 
+
+import plotly.express as px
+
+def make_choropleth(input_df, input_id, input_column, input_color_theme):
+    choropleth = px.choropleth(
+        input_df,
+        locations=input_id,  # should contain country names like "Uganda"
+        locationmode='country names',
+        color=input_column,
+        color_continuous_scale=input_color_theme,
+        scope="africa",  # focuses on Africa
+        labels={'Percentage': 'Percentage'}
+    )
+    choropleth.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin=dict(l=0, r=0, t=0, b=0),
+        height=400
+    )
+    return choropleth
+
+import pandas as pd
+
+df_selected_year = pd.DataFrame({
+    "Country": ["Uganda"],
+    "Percentage": [73.2]
+})
+
+choropleth = make_choropleth(df_selected_year, 'Country', 'Percentage', 'Viridis')
+st.plotly_chart(choropleth, use_container_width=True)
+
+
+
+
+
+
+
+
+
 # Column 3
 # Finally, the third column shows the top metrics via a dataframe whereby the Amounts are shown as a colored progress bar via the column_config parameter of st.dataframe.
 # An About section is displayed via the st.expander() container to provide information on the data source and definitions for terminologies used in the dashboard.
