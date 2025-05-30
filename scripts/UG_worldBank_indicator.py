@@ -1,5 +1,9 @@
-## # QN: How do the different indicator metric evolve over time and how do they compare to each other?
-# print((UG_data_subset.columns))
+# UG_worldBank_indicator.py
+# ---------------------------------------------
+# Uganda World Bank Indicator Analysis (Streamlit App)
+# Author: Denis Awany
+# ---------------------------------------------
+
 
 # Import libraries
 # -------
@@ -36,7 +40,6 @@ UG_data_long['Year'] = UG_data_long['Year'].astype(int)
 
 
 # Add a sidebar
-
 with st.sidebar:
     st.title('🏂 UGANDA World Bank Indicator Dashboard')
     
@@ -72,7 +75,7 @@ def make_heatmap(input_df, input_y, input_x, input_color, input_color_theme):
     # height=300
     return heatmap
 
-# (2) # Donut chart: Next, we’re going to create a donut chart for the IndicatorName migration in percentage.
+# (2) Donut chart: Next, we’re going to create a donut chart for the IndicatorName migration in percentage.
 def calculate_yearly_difference(input_df, input_year):
     selected_year_data = input_df[input_df['Year'] == input_year].reset_index()
     previous_year_data = input_df[input_df['Year'] == input_year - 1].reset_index()
@@ -128,7 +131,6 @@ def make_donut(input_response, input_text, input_color):
 # Next, we’ll going to create a custom function for making indicator values more concise as well as improving the aesthetics. 
 # Particularly, instead of being displayed as numerical values of 28,995,881 in the metrics card to a more concised form as 29.0 M. 
 # This was also applied to numerical values in the thousand range.
-
 def format_number(num):
     if num > 1000000:
         if not num % 1000000:
@@ -153,7 +155,7 @@ col = st.columns((1.5, 4.5, 2), gap='medium')
 # Select a year drop-down widget created via st.selectbox). The IndicatorName migration section shows a donut chart where the percentage of IndicatorName with annual 
 # inbound or outbound migration > 50,000 are displayed.
 with col[0]:
-    st.markdown('#### Gains/Losses')
+    st.markdown('#### Growth/Decline')
 
     df_yearly_difference_sorted = calculate_yearly_difference(UG_data_long, selected_year)
 
@@ -189,16 +191,16 @@ with col[0]:
         # % of IndicatorName with indicator difference > 50000
         indicator_changes_greater = round((len(df_greater_50000)/df_yearly_difference_sorted.IndicatorName.nunique())*100)
         indicator_changes_less = round((len(df_less_50000)/df_yearly_difference_sorted.IndicatorName.nunique())*100)
-        donut_chart_greater = make_donut(indicator_changes_greater, 'Inbound Change', 'green')
-        donut_chart_less = make_donut(indicator_changes_less, 'Outbound Change', 'red')
+        donut_chart_greater = make_donut(indicator_changes_greater, 'Growth', 'green')
+        donut_chart_less = make_donut(indicator_changes_less, 'Decline', 'red')
     else:
         indicator_changes_greater = 0
         indicator_changes_less = 0
-        donut_chart_greater = make_donut(indicator_changes_greater, 'Inbound Change', 'green')
-        donut_chart_less = make_donut(indicator_changes_less, 'Outbound Change', 'red')
+        donut_chart_greater = make_donut(indicator_changes_greater, 'Growth', 'green')
+        donut_chart_less = make_donut(indicator_changes_less, 'Decline', 'red')
 
-    migrations_col = st.columns((0.2, 1, 0.2))
-    with migrations_col[1]:
+    variables_col = st.columns((0.2, 1, 0.2))
+    with variables_col[1]:
         st.write('Inbound')
         st.altair_chart(donut_chart_greater)
         st.write('Outbound')
@@ -206,14 +208,14 @@ with col[0]:
 
 
 # Column 3
-# Finally, the third column shows the top indicators via a dataframe whereby the percentages are shown as a colored progress bar via the column_config parameter of st.dataframe.
+# Finally, the third column shows the top metrics via a dataframe whereby the percentages are shown as a colored progress bar via the column_config parameter of st.dataframe.
 # An About section is displayed via the st.expander() container to provide information on the data source and definitions for terminologies used in the dashboard.
 
 with col[2]:
-    st.markdown('#### Top Indicators')
+    st.markdown('#### Top metrics')
 
     st.dataframe(df_selected_year_sorted,
-                 column_order=("IndicatorName", "Percentage"),
+                 column_order=("IndicatorCode", "Percentage"),
                  hide_index=True,
                  width=None,
                  column_config={
@@ -231,8 +233,8 @@ with col[2]:
     with st.expander('About', expanded=True):
         st.write('''
             - Data: [UGA World Bank Indicator](<https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv>).
-            - :orange[**Gains/Losses**]: Indicators with high inbound/ outbound changes for selected year
-            - :orange[**Indicator Changes**]: percentage of indicators with annual inbound/ outbound changes > 50,000
+            - :orange[**Growth/Decline**]: Metrics with high inbound/ Declines for selected year
+            - :orange[**Indicator Changes**]: Percentage of indicators with annual inbound/ Declines > 50,000
             ''')
 
 
