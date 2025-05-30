@@ -1,0 +1,6 @@
+pandas
+numpy
+altair
+plotly
+pyarrow
+plotly.express
