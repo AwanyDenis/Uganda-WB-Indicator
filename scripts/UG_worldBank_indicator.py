@@ -32,7 +32,7 @@ UG_data_subset = UG_data.drop(['Country Name','Country Code','Unnamed: 69'], axi
 year_cols = UG_data_subset.columns[2:]
 
 UG_data_long = UG_data_subset.melt(id_vars=['Indicator Name','Indicator Code'],
-    value_vars=year_cols, var_name='Year', value_name='Percentage')
+    value_vars=year_cols, var_name='Year', value_name='Amount')
 
 UG_data_long = UG_data_long.rename(columns={'Indicator Name': 'IndicatorName', 'Indicator Code': 'IndicatorCode'})
 
@@ -47,7 +47,7 @@ with st.sidebar:
     
     selected_year = st.selectbox('Select a year', year_list, index=len(year_list)-1)
     df_selected_year = UG_data_long[UG_data_long.Year == selected_year]
-    df_selected_year_sorted = df_selected_year.sort_values(by="Percentage", ascending=False)
+    df_selected_year_sorted = df_selected_year.sort_values(by="Amount", ascending=False)
 
     color_theme_list = ['blues', 'cividis', 'greens', 'inferno', 'magma', 'plasma', 'reds', 'rainbow', 'turbo', 'viridis']
     selected_color_theme = st.selectbox('Select a color theme', color_theme_list)
@@ -75,14 +75,14 @@ def make_heatmap(input_df, input_y, input_x, input_color, input_color_theme):
     # height=300
     return heatmap
 
-# (2) Donut chart: Next, we’re going to create a donut chart for the IndicatorName performance metric in percentage.
+# (2) Donut chart: Next, we’re going to create a donut chart for the IndicatorName performance metric in Amount.
 def calculate_yearly_difference(input_df, input_year):
     selected_year_data = input_df[input_df['Year'] == input_year].reset_index()
     previous_year_data = input_df[input_df['Year'] == input_year - 1].reset_index()
-    selected_year_data['yearly_difference'] = selected_year_data.Percentage.sub(previous_year_data.Percentage, fill_value=0)
-    return pd.concat([selected_year_data.IndicatorName, selected_year_data.IndicatorCode, selected_year_data.Percentage, selected_year_data.yearly_difference], axis=1).sort_values(by="yearly_difference", ascending=False)
+    selected_year_data['yearly_difference'] = selected_year_data.Amount.sub(previous_year_data.Amount, fill_value=0)
+    return pd.concat([selected_year_data.IndicatorName, selected_year_data.IndicatorCode, selected_year_data.Amount, selected_year_data.yearly_difference], axis=1).sort_values(by="yearly_difference", ascending=False)
 
-# The donut chart is then created from the aforementioned percentage value for IndicatorName performance metric.
+# The donut chart is then created from the aforementioned Amount value for IndicatorName performance metric.
 def make_donut(input_response, input_text, input_color):
     if input_color == 'blue':
         chart_color = ['#29b5e8', '#155F7A']
@@ -152,7 +152,7 @@ col = st.columns((1.5, 4.5, 2), gap='medium')
 
 # Column 1
 # The Gain/Loss section is shown where metrics card are displaying IndicatorName with the highest Growth and Decline performance metric for the selected year (specified via the 
-# Select a year drop-down widget created via st.selectbox). The IndicatorName performance metric section shows a donut chart where the percentage of IndicatorName with annual 
+# Select a year drop-down widget created via st.selectbox). The IndicatorName performance metric section shows a donut chart where the Amount of IndicatorName with annual 
 # Growth or Decline performance metric > 50,000 are displayed.
 with col[0]:
     st.markdown('#### Growth/Decline')
@@ -161,23 +161,23 @@ with col[0]:
 
     if selected_year > 1960:
         first_inddicator_name = df_yearly_difference_sorted.IndicatorName.iloc[0]
-        first_indicator_percentage = format_number(df_yearly_difference_sorted.Percentage.iloc[0])
+        first_indicator_Amount = format_number(df_yearly_difference_sorted.Amount.iloc[0])
         first_indicator_delta = format_number(df_yearly_difference_sorted.yearly_difference.iloc[0])
     else:
         first_inddicator_name = '-'
-        first_indicator_percentage = '-'
+        first_indicator_Amount = '-'
         first_indicator_delta = ''
-    st.metric(label=first_inddicator_name, value=first_indicator_percentage, delta=first_indicator_delta)
+    st.metric(label=first_inddicator_name, value=first_indicator_Amount, delta=first_indicator_delta)
 
     if selected_year > 1960:
         last_indicator_name = df_yearly_difference_sorted.IndicatorName.iloc[-1]
-        last_indicator_percentage = format_number(df_yearly_difference_sorted.Percentage.iloc[-1])   
+        last_indicator_Amount = format_number(df_yearly_difference_sorted.Amount.iloc[-1])   
         last_indicator_delta = format_number(df_yearly_difference_sorted.yearly_difference.iloc[-1])   
     else:
         last_indicator_name = '-'
-        last_indicator_percentage = '-'
+        last_indicator_Amount = '-'
         last_indicator_delta = ''
-    st.metric(label=last_indicator_name, value=last_indicator_percentage, delta=last_indicator_delta)
+    st.metric(label=last_indicator_name, value=last_indicator_Amount, delta=last_indicator_delta)
 
     
     st.markdown('#### Changes in Indicators')
@@ -208,25 +208,25 @@ with col[0]:
 
 
 # Column 3
-# Finally, the third column shows the top metrics via a dataframe whereby the percentages are shown as a colored progress bar via the column_config parameter of st.dataframe.
+# Finally, the third column shows the top metrics via a dataframe whereby the Amounts are shown as a colored progress bar via the column_config parameter of st.dataframe.
 # An About section is displayed via the st.expander() container to provide information on the data source and definitions for terminologies used in the dashboard.
 
 with col[2]:
     st.markdown('#### Top metrics')
 
     st.dataframe(df_selected_year_sorted,
-                 column_order=("Year","IndicatorCode", "Percentage"),
+                 column_order=("Year","Indicator", "Amount"),
                  hide_index=True,
                  width=None,
                  column_config={
                     "IndicatorName": st.column_config.TextColumn(
                         "Indicator",
                     ),
-                    "Percentage": st.column_config.ProgressColumn(
-                        "Percentage",
+                    "Amount": st.column_config.ProgressColumn(
+                        "Amount",
                         format="%f",
                         min_value=0,
-                        max_value=max(df_selected_year_sorted.Percentage),
+                        max_value=max(df_selected_year_sorted.Amount),
                      )}
                  )
     
@@ -234,7 +234,7 @@ with col[2]:
         st.write('''
             - Data: [UGA World Bank Indicator](<https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv>).
             - :orange[**Growth/Decline**]: Metrics with high Growth/ Declines for selected year
-            - :orange[**Indicator Changes**]: Percentage of indicators with annual Growth/ Decline > 50,000
+            - :orange[**Indicator Changes**]: Amount of indicators with annual Growth/ Decline > 50,000
             ''')
 
 
