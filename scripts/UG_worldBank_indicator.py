@@ -218,7 +218,7 @@ def make_choropleth(input_df, input_id, input_column, input_color_theme):
         color=input_column,
         color_continuous_scale=input_color_theme,
         scope="africa",  # focuses on Africa
-        labels={'Percentage': 'Percentage'}
+        labels={'Amount': 'Amount'}
     )
     choropleth.update_layout(
         template='plotly_dark',
@@ -233,10 +233,10 @@ import pandas as pd
 
 df_selected_year = pd.DataFrame({
     "Country": ["Uganda"],
-    "Percentage": [73.2]
+    "Amount": [73.2]
 })
 
-choropleth = make_choropleth(df_selected_year, 'Country', 'Percentage', 'Viridis')
+choropleth = make_choropleth(df_selected_year, 'Country', 'Amount', 'Viridis')
 st.plotly_chart(choropleth, use_container_width=True)
 
 
