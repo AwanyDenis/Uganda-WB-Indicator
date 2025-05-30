@@ -234,7 +234,7 @@ with col[2]:
         st.write('''
             - Data: [UGA World Bank Indicator](<https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv>).
             - :orange[**Growth/Decline**]: Metrics with high inbound/ Declines for selected year
-            - :orange[**Indicator Changes**]: Percentage of indicators with annual inbound/ Declines > 50,000
+            - :orange[**Indicator Changes**]: Percentage of indicators with annual Growth/ Declines > 50,000
             ''')
 
 
