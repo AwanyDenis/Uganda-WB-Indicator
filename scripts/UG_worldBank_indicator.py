@@ -251,7 +251,7 @@ with col[2]:
     st.markdown('#### Top metrics')
 
     st.dataframe(df_selected_year_sorted,
-                 column_order=("Year","Indicator", "Amount"),
+                 column_order=("Year","IndicatorName", "Amount"),
                  hide_index=True,
                  width=None,
                  column_config={
