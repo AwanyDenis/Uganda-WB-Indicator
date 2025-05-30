@@ -28,7 +28,7 @@ UG_data = pd.read_csv("https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-In
 
 
 # UG_data.columns
-UG_data_subset = UG_data.drop(['Country Name','Country Code','Unnamed: 69'], axis=1)
+UG_data_subset = UG_data.drop(['Country Name','Country Code','1960','Unnamed: 69'], axis=1)
 year_cols = UG_data_subset.columns[2:]
 
 UG_data_long = UG_data_subset.melt(id_vars=['Indicator Name','Indicator Code'],
