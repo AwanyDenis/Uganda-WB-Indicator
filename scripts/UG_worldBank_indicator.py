@@ -245,7 +245,7 @@ df_selected_year = pd.DataFrame({
 
 
 with col[1]:
-    st.markdown('#### Total Growth')
+    st.markdown('#### ') # st.markdown('#### Total Amount')
     
     # choropleth = make_choropleth(df_selected_year, 'states_code', 'population', selected_color_theme)
     # st.plotly_chart(choropleth, use_container_width=True)
