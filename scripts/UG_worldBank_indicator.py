@@ -226,7 +226,7 @@ def make_choropleth(input_df, input_id, input_column, input_color_theme):
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         margin=dict(l=0, r=0, t=0, b=0),
-        height=400
+        height=350
     )
     return choropleth
 
@@ -236,8 +236,18 @@ df_selected_year = pd.DataFrame({
     "Amount": [73.2]
 })
 
-choropleth = make_choropleth(df_selected_year, 'Country', 'Amount', 'Viridis')
-st.plotly_chart(choropleth, use_container_width=True)
+
+with col[1]:
+    st.markdown('#### Total Growth')
+    
+    # choropleth = make_choropleth(df_selected_year, 'states_code', 'population', selected_color_theme)
+    # st.plotly_chart(choropleth, use_container_width=True)
+    
+    # heatmap = make_heatmap(df_reshaped, 'year', 'states', 'population', selected_color_theme)
+    # st.altair_chart(heatmap, use_container_width=True)
+
+    choropleth = make_choropleth(df_selected_year, 'Country', 'Amount', 'Viridis')
+    st.plotly_chart(choropleth, use_container_width=True)
 
 
 
