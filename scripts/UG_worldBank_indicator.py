@@ -20,7 +20,7 @@ st.set_page_config(
 alt.themes.enable("dark")
 
 # Import the data
-UG_data = pd.read_csv("https://github.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv", skiprows=3)
+UG_data = pd.read_csv("https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv", skiprows=3)
 
 
 # UG_data.columns
@@ -230,7 +230,7 @@ with col[2]:
     
     with st.expander('About', expanded=True):
         st.write('''
-            - Data: [UGA World Bank Indicator](<https://github.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv>).
+            - Data: [UGA World Bank Indicator](<https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv>).
             - :orange[**Gains/Losses**]: Indicators with high inbound/ outbound changes for selected year
             - :orange[**Indicator Changes**]: percentage of indicators with annual inbound/ outbound changes > 50,000
             ''')
