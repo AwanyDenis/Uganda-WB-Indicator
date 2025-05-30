@@ -75,14 +75,14 @@ def make_heatmap(input_df, input_y, input_x, input_color, input_color_theme):
     # height=300
     return heatmap
 
-# (2) Donut chart: Next, we’re going to create a donut chart for the IndicatorName migration in percentage.
+# (2) Donut chart: Next, we’re going to create a donut chart for the IndicatorName performance metric in percentage.
 def calculate_yearly_difference(input_df, input_year):
     selected_year_data = input_df[input_df['Year'] == input_year].reset_index()
     previous_year_data = input_df[input_df['Year'] == input_year - 1].reset_index()
     selected_year_data['yearly_difference'] = selected_year_data.Percentage.sub(previous_year_data.Percentage, fill_value=0)
     return pd.concat([selected_year_data.IndicatorName, selected_year_data.IndicatorCode, selected_year_data.Percentage, selected_year_data.yearly_difference], axis=1).sort_values(by="yearly_difference", ascending=False)
 
-# The donut chart is then created from the aforementioned percentage value for IndicatorName migration.
+# The donut chart is then created from the aforementioned percentage value for IndicatorName performance metric.
 def make_donut(input_response, input_text, input_color):
     if input_color == 'blue':
         chart_color = ['#29b5e8', '#155F7A']
@@ -151,9 +151,9 @@ col = st.columns((1.5, 4.5, 2), gap='medium')
 # that the third column has a width about twice less than that of the second column.
 
 # Column 1
-# The Gain/Loss section is shown where metrics card are displaying IndicatorName with the highest inbound and outbound migration for the selected year (specified via the 
-# Select a year drop-down widget created via st.selectbox). The IndicatorName migration section shows a donut chart where the percentage of IndicatorName with annual 
-# inbound or outbound migration > 50,000 are displayed.
+# The Gain/Loss section is shown where metrics card are displaying IndicatorName with the highest Growth and Decline performance metric for the selected year (specified via the 
+# Select a year drop-down widget created via st.selectbox). The IndicatorName performance metric section shows a donut chart where the percentage of IndicatorName with annual 
+# Growth or Decline performance metric > 50,000 are displayed.
 with col[0]:
     st.markdown('#### Growth/Decline')
 
@@ -201,9 +201,9 @@ with col[0]:
 
     variables_col = st.columns((0.2, 1, 0.2))
     with variables_col[1]:
-        st.write('Inbound')
+        st.write('Growth')
         st.altair_chart(donut_chart_greater)
-        st.write('Outbound')
+        st.write('Decline')
         st.altair_chart(donut_chart_less)
 
 
@@ -215,7 +215,7 @@ with col[2]:
     st.markdown('#### Top metrics')
 
     st.dataframe(df_selected_year_sorted,
-                 column_order=("IndicatorCode", "Percentage"),
+                 column_order=("Year","IndicatorCode", "Percentage"),
                  hide_index=True,
                  width=None,
                  column_config={
@@ -233,8 +233,8 @@ with col[2]:
     with st.expander('About', expanded=True):
         st.write('''
             - Data: [UGA World Bank Indicator](<https://raw.githubusercontent.com/AwanyDenis/Uganda-WB-Indicator/main/data/API_UGA_DS2_en_csv_v2_93736.csv>).
-            - :orange[**Growth/Decline**]: Metrics with high inbound/ Declines for selected year
-            - :orange[**Indicator Changes**]: Percentage of indicators with annual Growth/ Declines > 50,000
+            - :orange[**Growth/Decline**]: Metrics with high Growth/ Declines for selected year
+            - :orange[**Indicator Changes**]: Percentage of indicators with annual Growth/ Decline > 50,000
             ''')
 
 
