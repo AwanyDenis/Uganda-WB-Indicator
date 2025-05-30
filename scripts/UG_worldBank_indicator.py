@@ -256,20 +256,11 @@ with col[1]:
     # st.plotly_chart(choropleth, use_container_width=True)
     
     heatmap = make_heatmap(UG_data_long, 'Year','Amount', selected_color_theme)
-    # st.altair_chart(heatmap, use_container_width=True)
+    st.altair_chart(heatmap, use_container_width=True)
 
     choropleth = make_choropleth(df_selected_year, 'Country', 'Amount', 'Viridis')
     st.plotly_chart(choropleth, use_container_width=True)
 
-    # Optional: include heatmap if needed
-    # heatmap = make_heatmap(
-    #     UG_data_long,
-    #     x='Year',
-    #     y='Country',
-    #     color='Percentage',             # Assuming you're tracking 'Amount' over years
-    #     color_theme='Viridis'
-    # )
-    st.altair_chart(heatmap, use_container_width=True)
 
 
 # Column 3
