@@ -37,6 +37,7 @@ UG_data_long = UG_data_subset.melt(id_vars=['Indicator Name','Indicator Code'],
 UG_data_long = UG_data_long.rename(columns={'Indicator Name': 'IndicatorName', 'Indicator Code': 'IndicatorCode'})
 
 UG_data_long['Year'] = UG_data_long['Year'].astype(int)
+UG_data_long = UG_data_long.dropna(subset=['Amount'])
 
 
 # Add a sidebar
