@@ -46,10 +46,15 @@ with st.sidebar:
     st.title('🏂 UGANDA World Bank Indicator Dashboard')
     
     year_list = list(UG_data_long.Year.unique())[::-1]
+    indicator_list = list(UG_data_long.IndicatorName.unique())[::-1]
     
     selected_year = st.selectbox('Select a year', year_list, index=len(year_list)-1)
     df_selected_year = UG_data_long[UG_data_long.Year == selected_year]
     df_selected_year_sorted = df_selected_year.sort_values(by="Amount", ascending=False)
+
+    selected_indicator = st.selectbox('Select an indicator', indicator_list, index=len(indicator_list)-1)
+    df_selected_indicator = UG_data_long[UG_data_long.Year == selected_indicator]
+    df_selected_indicator_sorted = df_selected_indicator.sort_values(by="Amount", ascending=False)
 
     color_theme_list = ['blues', 'cividis', 'greens', 'inferno', 'magma', 'plasma', 'reds', 'rainbow', 'turbo', 'viridis']
     selected_color_theme = st.selectbox('Select a color theme', color_theme_list)
