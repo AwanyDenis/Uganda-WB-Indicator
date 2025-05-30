@@ -8,8 +8,12 @@ This repository contains a Python-based data analysis project that explores Worl
 uganda-wb-indicator/
 │
 ├── data/
-│   └── (World Bank CSV files)
+│   └── (Data file)
 ├── scripts/
 │   └── UG_worldBank_indicator.py
 ├── requirements.txt
 └── README.md
+```
+
+## View the result at
+[Uganda World Bank Indicators Analysis - Denis Awany](https://uganda-wb-indicator.streamlit.app)
