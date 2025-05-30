@@ -155,12 +155,12 @@ col = st.columns((1.5, 4.5, 2), gap='medium')
 with col[0]:
     st.markdown('#### Gains/Losses')
 
-    df_percentage_difference_sorted = calculate_yearly_difference(UG_data_long, selected_year)
+    df_yearly_difference_sorted = calculate_yearly_difference(UG_data_long, selected_year)
 
     if selected_year > 1960:
-        first_inddicator_name = df_percentage_difference_sorted.IndicatorName.iloc[0]
-        first_indicator_percentage = format_number(df_percentage_difference_sorted.Percentage.iloc[0])
-        first_indicator_delta = format_number(df_percentage_difference_sorted.Percentage_difference.iloc[0])
+        first_inddicator_name = df_yearly_difference_sorted.IndicatorName.iloc[0]
+        first_indicator_percentage = format_number(df_yearly_difference_sorted.Percentage.iloc[0])
+        first_indicator_delta = format_number(df_yearly_difference_sorted.yearly_difference.iloc[0])
     else:
         first_inddicator_name = '-'
         first_indicator_percentage = '-'
@@ -168,9 +168,9 @@ with col[0]:
     st.metric(label=first_inddicator_name, value=first_indicator_percentage, delta=first_indicator_delta)
 
     if selected_year > 1960:
-        last_indicator_name = df_percentage_difference_sorted.IndicatorName.iloc[-1]
-        last_indicator_percentage = format_number(df_percentage_difference_sorted.Percentage.iloc[-1])   
-        last_indicator_delta = format_number(df_percentage_difference_sorted.Percentage_difference.iloc[-1])   
+        last_indicator_name = df_yearly_difference_sorted.IndicatorName.iloc[-1]
+        last_indicator_percentage = format_number(df_yearly_difference_sorted.Percentage.iloc[-1])   
+        last_indicator_delta = format_number(df_yearly_difference_sorted.yearly_difference.iloc[-1])   
     else:
         last_indicator_name = '-'
         last_indicator_percentage = '-'
@@ -182,13 +182,13 @@ with col[0]:
 
     if selected_year > 1960:
         # Filter IndicatorName with indicator difference > 50000
-        # df_greater_50000 = df_percentage_difference_sorted[df_percentage_difference_sorted.Percentage_difference_absolute > 50000]
-        df_greater_50000 = df_percentage_difference_sorted[df_percentage_difference_sorted.Percentage_difference > 50000]
-        df_less_50000 = df_percentage_difference_sorted[df_percentage_difference_sorted.Percentage_difference < -50000]
+        # df_greater_50000 = df_yearly_difference_sorted[df_yearly_difference_sorted.yearly_difference_absolute > 50000]
+        df_greater_50000 = df_yearly_difference_sorted[df_yearly_difference_sorted.yearly_difference > 50000]
+        df_less_50000 = df_yearly_difference_sorted[df_yearly_difference_sorted.yearly_difference < -50000]
         
         # % of IndicatorName with indicator difference > 50000
-        indicator_changes_greater = round((len(df_greater_50000)/df_percentage_difference_sorted.IndicatorName.nunique())*100)
-        indicator_changes_less = round((len(df_less_50000)/df_percentage_difference_sorted.IndicatorName.nunique())*100)
+        indicator_changes_greater = round((len(df_greater_50000)/df_yearly_difference_sorted.IndicatorName.nunique())*100)
+        indicator_changes_less = round((len(df_less_50000)/df_yearly_difference_sorted.IndicatorName.nunique())*100)
         donut_chart_greater = make_donut(indicator_changes_greater, 'Inbound Change', 'green')
         donut_chart_less = make_donut(indicator_changes_less, 'Outbound Change', 'red')
     else:
