@@ -151,6 +151,7 @@ col = st.columns((1.5, 4.5, 2), gap='medium')
 # that the third column has a width about twice less than that of the second column.
 
 # Column 1
+# --------------------
 # The Gain/Loss section is shown where metrics card are displaying IndicatorName with the highest Growth and Decline performance metric for the selected year (specified via the 
 # Select a year drop-down widget created via st.selectbox). The IndicatorName performance metric section shows a donut chart where the Amount of IndicatorName with annual 
 # Growth or Decline performance metric > 50,000 are displayed.
@@ -208,8 +209,8 @@ with col[0]:
 
 
 
-import plotly.express as px
-
+# Column 2
+# ---------------------
 def make_choropleth(input_df, input_id, input_column, input_color_theme):
     choropleth = px.choropleth(
         input_df,
@@ -229,7 +230,6 @@ def make_choropleth(input_df, input_id, input_column, input_color_theme):
     )
     return choropleth
 
-import pandas as pd
 
 df_selected_year = pd.DataFrame({
     "Country": ["Uganda"],
@@ -242,12 +242,8 @@ st.plotly_chart(choropleth, use_container_width=True)
 
 
 
-
-
-
-
-
 # Column 3
+# -----------------
 # Finally, the third column shows the top metrics via a dataframe whereby the Amounts are shown as a colored progress bar via the column_config parameter of st.dataframe.
 # An About section is displayed via the st.expander() container to provide information on the data source and definitions for terminologies used in the dashboard.
 
